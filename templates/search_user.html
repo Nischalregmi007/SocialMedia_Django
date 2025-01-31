@@ -1,0 +1,54 @@
+<style>
+    .search-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+    }
+    .user-card {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    .user-card:hover {
+        transform: scale(1.05);
+    }
+    .username-link {
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        transition: color 0.3s;
+    }
+    .username-link:hover {
+        color: #007bff;
+    }
+    .profileimg{
+        height:50px;
+        position:relative;
+        top:5px;
+        border-radius:50%;
+    }
+</style>
+
+<div class="search-container">
+    <h1 class="text-center">Search Results for "{{ query }}"</h1>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">User Profiles</h2>
+        <div class="row">
+            {% for user in users %}
+            <div class="col-md-6 mb-3">
+                <div class="user-card text-center">
+                    <h1>
+                        <img src="{{user.profileimg.url}}" class="profileimg">
+                        <a href="/profile/{{user.user.username}}" class="username-link">
+                            @{{user.user.username}}
+                        </a>
+                    </h1>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
