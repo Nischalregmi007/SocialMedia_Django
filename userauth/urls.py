@@ -17,6 +17,12 @@ urlpatterns = [
     path('delete/<str:id>', views.delete),
     path('search-results/', views.search_results, name='search_results'),
     path('follow/', views.follow, name='follow'),
+    path('submit/<str:post_id>', views.comment, name='comment'),
+    path('comment/<str:id>', views.comment_show, name='comment_show'),
+    path('comment/delete_comment/<str:comment_id>', views.comment_delete, name='comment_delete'),
+    path('comment/edit_commentform/<str:comment_id>', views.comment_editform, name='comment_editform'),
+    path('edit_comment/<str:comment_id>', views.comment_edit, name='comment_edit'),
+    path('likeshow/<str:post_id>', views.show_liked_by, name='comment_edit'),
     
     
     

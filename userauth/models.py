@@ -41,6 +41,11 @@ class Followers(models.Model):
 
     def __str__(self):
         return self.user
+class Comments(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    comments=models.CharField(max_length=100)
+    post_id=models.CharField(max_length=500) 
+    user=models.CharField(max_length=20)   
 
     
     

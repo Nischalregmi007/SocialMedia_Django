@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from . models import  Followers, LikePost, Post, Profile
+from . models import  Followers, LikePost, Post, Profile, Comments
 from django.db.models import Q
 
 
@@ -240,3 +240,47 @@ def follow(request):
             return redirect('/profile/'+user)
     else:
         return redirect('/')
+    
+def comment(request, post_id):
+    if request.method=='POST':
+        comment=request.POST['comments']
+        comment=Comments.objects.create(comments=comment,
+                                        post_id=post_id,
+                                        user=request.user.username)
+        comment.save()
+        return redirect('/')
+    
+def comment_show(request, id):
+    comments=Comments.objects.filter(post_id=id)
+    context={
+        'comments':comments
+    }
+    return render(request, "comment.html", context)        
+
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comments, id=comment_id)  # Ensures the comment exists
+    comment.delete()
+    
+    # Redirect to the same post's comment section
+    return redirect(request.META.get('HTTP_REFERER', '/comments/'))
+
+def comment_editform(request, comment_id):
+    comment= get_object_or_404(Comments, id=comment_id)
+    context={
+        'comment':comment
+    }
+    return render(request, "editform.html", context)
+def comment_edit(request, comment_id):
+    if request.method=='POST':
+        new_comment=request.POST['comments']
+        comment= get_object_or_404(Comments, id=comment_id)
+        comment.comments=new_comment
+        comment.save()
+        return redirect(request.META.get('HTTP_REFERER', '/comments/'))
+
+def show_liked_by(request, post_id):
+    liked_by = LikePost.objects.filter(post_id=post_id)
+    context={
+        'likes':liked_by
+    }
+    return render(request, "liked_by.html", context)    
