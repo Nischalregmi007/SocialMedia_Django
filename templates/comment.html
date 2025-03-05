@@ -45,16 +45,14 @@
                         <span class="comment-user">{{ comment.user }}</span>
                     </div>
                     <p class="comment-text mt-2">{{ comment.comments }}</p>
-                    {% if comment.user == request.user.username %}
-                       <div class="d-flex gap-2 mt-2">
-                          <a href="delete_comment/{{comment.id}}"><button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button></a>
-                          <a href="edit_commentform/{{comment.id}}"><button class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</button></a>
-                        </div>
-                    {% endif %}
-
-
-                    
-                    
+                    <div class="d-flex gap-2 mt-2">
+                        {% if comment.user == request.user.username %}
+                            <a href="delete_comment/{{comment.id}}"><button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button></a>
+                            <a href="edit_commentform/{{comment.id}}"><button class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</button></a>
+                        {% endif %}
+                        <a href="/replyform/{{comment.id}}"><button class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Reply</button><a>
+                        <a href="/show_reply/{{comment.id}}"><button class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Show Replies</button><a>
+                    </div>
                 </div>
                 {% empty %}
                 <div class="alert alert-warning text-center">

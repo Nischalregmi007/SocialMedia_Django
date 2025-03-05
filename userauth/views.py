@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from . models import  Followers, LikePost, Post, Profile, Comments
+from . models import  Followers, LikePost, Post, Profile, Comments, Replies
 from django.db.models import Q
 
 
@@ -284,3 +284,24 @@ def show_liked_by(request, post_id):
         'likes':liked_by
     }
     return render(request, "liked_by.html", context)    
+
+def show_replyform(request, comment_id):
+    context={
+        'comment_id':comment_id
+    }
+    return render(request, "reply_form.html", context)
+def reply(request, comment_id):
+    if request.method=='POST':
+        reply=request.POST['reply']
+        reply=Replies.objects.create(comment_id=comment_id,
+                                     reply=reply,
+                                     user=request.user.username)
+        reply.save()
+        return redirect(request.META.get('HTTP_REFERER', '/comments/'))
+
+def reply_show(request, comment_id):
+    replies=Replies.objects.filter(comment_id=comment_id)
+    context={
+        'replies':replies
+    }
+    return render(request, "reply.html", context)

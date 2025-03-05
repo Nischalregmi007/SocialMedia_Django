@@ -46,6 +46,10 @@ class Comments(models.Model):
     comments=models.CharField(max_length=100)
     post_id=models.CharField(max_length=500) 
     user=models.CharField(max_length=20)   
-
+class Replies(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    comment_id=models.CharField(max_length=100)
+    reply=models.CharField(max_length=100)
+    user=models.CharField(max_length=100, null=True)
     
     
