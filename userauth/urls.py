@@ -26,6 +26,9 @@ urlpatterns = [
     path('replyform/<str:comment_id>', views.show_replyform, name='reply_form'),
     path('submit_reply/<str:comment_id>', views.reply, name='reply'),
     path('show_reply/<str:comment_id>', views.reply_show, name='reply_show'),
+    path('delete_reply/<str:reply_id>', views.reply_delete, name='reply_delete'),
+    path('like_comment/<str:comment_id>', views.like_comment, name='like_comment'),
+    path('liked_by_show/<str:comment_id>', views.like_comment_show, name='like_comment_show'),
     
     
     

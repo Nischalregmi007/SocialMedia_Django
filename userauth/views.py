@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from . models import  Followers, LikePost, Post, Profile, Comments, Replies
+from . models import  Followers, LikePost, Post, Profile, Comments, Replies, Liked_Comments
 from django.db.models import Q
 
 
@@ -305,3 +305,29 @@ def reply_show(request, comment_id):
         'replies':replies
     }
     return render(request, "reply.html", context)
+def reply_delete(request, reply_id):
+    reply= get_object_or_404(Replies, id=reply_id)
+    reply.delete()
+    return redirect(request.META.get('HTTP_REFERER', '/comments/'))
+def like_comment(request, comment_id):  
+    comment = get_object_or_404(Comments, id=comment_id)
+
+    # Check if the user has already liked the comment
+    is_liked = Liked_Comments.objects.filter(comment_id=comment_id, user=request.user.username).first()
+
+    if is_liked:
+        # Unlike: Remove the like entry and decrement like count
+        is_liked.delete()
+        comment.no_of_likes = max(0, comment.no_of_likes - 1)  # Ensure likes don't go negative
+    else:
+        # Like: Create a new like entry and increment like count
+        Liked_Comments.objects.create(comment_id=comment_id, user=request.user.username)
+        comment.no_of_likes += 1
+    comment.save()
+    return redirect(request.META.get('HTTP_REFERER', '/comments/'))
+def like_comment_show(request, comment_id):
+    likes=Liked_Comments.objects.filter(comment_id=comment_id)
+    context={
+        'likes':likes
+    }
+    return render(request, "comment_liked_by.html", context)

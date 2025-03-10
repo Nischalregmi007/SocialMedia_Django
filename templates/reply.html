@@ -25,6 +25,17 @@
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .delete-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +47,9 @@
         <div class="reply-card mb-3 p-3">
             <h5 class="text-secondary"><i class="bi bi-person-circle"></i> {{ reply.user }}</h5>
             <p class="mb-0 text-dark"><i class="bi bi-reply-fill"></i> {{ reply.reply }}</p>
+            {% if reply.user == request.user.username %}
+            <a href="/delete_reply/{{reply.id}}"><button class="delete-button">Delete</button></a>
+            {% endif %}
         </div>
         {% endfor %}
     </div>

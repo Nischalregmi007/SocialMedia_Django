@@ -45,11 +45,23 @@ class Comments(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     comments=models.CharField(max_length=100)
     post_id=models.CharField(max_length=500) 
-    user=models.CharField(max_length=20)   
+    user=models.CharField(max_length=20)
+    no_of_likes = models.IntegerField(default=0)   
 class Replies(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     comment_id=models.CharField(max_length=100)
     reply=models.CharField(max_length=100)
     user=models.CharField(max_length=100, null=True)
+class Liked_Comments(models.Model):
+    comment_id=models.CharField(max_length=100)
+    user=models.CharField(max_length=100)
+class ChatMessage(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_messages")
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender} -> {self.receiver}: {self.message}"
     
     

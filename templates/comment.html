@@ -46,10 +46,16 @@
                     </div>
                     <p class="comment-text mt-2">{{ comment.comments }}</p>
                     <div class="d-flex gap-2 mt-2">
+                        {% if comment.no_of_likes == 0 %}
+                        <p>No Likes</p>
+                        {%else%}
+                        <p>Liked by <a href="/liked_by_show/{{comment.id}}">{{comment.no_of_likes}} pepole...</a></p>
+                        {%endif%}
                         {% if comment.user == request.user.username %}
                             <a href="delete_comment/{{comment.id}}"><button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Delete</button></a>
                             <a href="edit_commentform/{{comment.id}}"><button class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i> Edit</button></a>
                         {% endif %}
+                        <a href="/like_comment/{{comment.id}}"><button class="btn btn-primary btn-sm"><i class="bi bi-heart"></i> Like</button></a>
                         <a href="/replyform/{{comment.id}}"><button class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Reply</button><a>
                         <a href="/show_reply/{{comment.id}}"><button class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Show Replies</button><a>
                     </div>
