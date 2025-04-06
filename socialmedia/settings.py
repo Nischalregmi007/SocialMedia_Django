@@ -134,5 +134,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-ALLOWED_HOSTS = ['your-app-name.onrender.com']
+ALLOWED_HOSTS = ['socialmedia-django-buhr.onrender.com']
+
 
