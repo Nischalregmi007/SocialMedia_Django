@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
 from datetime import datetime
-
+    
 User = get_user_model()
 
 # Create your models here.
@@ -55,13 +55,3 @@ class Replies(models.Model):
 class Liked_Comments(models.Model):
     comment_id=models.CharField(max_length=100)
     user=models.CharField(max_length=100)
-class ChatMessage(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_messages")
-    message = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.sender} -> {self.receiver}: {self.message}"
-    
-    
