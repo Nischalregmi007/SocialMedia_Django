@@ -6,7 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . models import  Followers, LikePost, Post, Profile, Comments, Replies, Liked_Comments
 from django.db.models import Q
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 
 
@@ -17,7 +19,7 @@ def signup(request):
         emailid=request.POST.get('emailid')
         pwd=request.POST.get('pwd')
         print(fnm,emailid,pwd)
-        my_user=User.objects.create_user(fnm,emailid,pwd)
+        my_user = User.objects.create_user(username=fnm, email=emailid, password=pwd)
         my_user.save()
         user_model = User.objects.get(username=fnm)
         new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
